@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exoplanet Habitability Predictor</title>
+
+<style>
+/* ---------- RESET ---------- */
+body {
+    margin:0;
+    font-family:"Segoe UI", sans-serif;
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------- BASE ---------- */
+html, body {
+    height: 100%;
+    font-family: "Segoe UI", Arial, sans-serif;
+    overflow-x: hidden;
+    color: white;
+}
+
+/* ---------- STAR BACKGROUND ---------- */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* ---------- NAVIGATION ---------- */
+nav {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px 22px;
+    border-radius: 30px;
+    backdrop-filter: blur(6px);
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 600;
+    font-size: 15px;
+    opacity: 0.95;
+}
+
+nav a:hover {
+    opacity: 1;
+    color: #00c6ff;
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-box {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 55px;
+    border-radius: 18px;
+    max-width: 780px;
+    backdrop-filter: blur(6px);
+}
+
+.hero-box h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero-box h2 {
+    font-weight: normal;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.hero-box p {
+    font-size: 18px;
+    line-height: 1.7;
+    opacity: 0.92;
+}
+
+/* ---------- BUTTON ---------- */
+.hero-box button {
+    margin-top: 35px;
+    padding: 14px 40px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-box button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0,198,255,0.6);
+}
+</style>
+</head>
+
+<body>
+
+<!-- STAR CANVAS -->
+<canvas id="stars"></canvas>
+
+<!-- NAV BAR -->
+<nav>
+    
+    
+    <a href="/dashboard">Dashboard</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-box">
+        <h1>🌍 Welcome to Exoplanet Explorer</h1>
+        <h2>Discover worlds beyond Earth that could support life</h2>
+
+        <p>
+            This platform uses <b>machine learning</b> and real
+            <b>astronomical datasets</b> to predict the habitability of
+            exoplanets based on planetary and stellar characteristics.
+        </p>
+
+        <p style="margin-top: 15px;">
+            Analyze habitability scores, explore top-ranked planets,
+            visualize feature importance, and export scientific reports —
+            all in one intelligent dashboard.
+        </p>
+
+        <button onclick="goToPredict()">🔮 Predict Habitability</button>
+    </div>
+</section>
+
+<script>
+/* ---------- REDIRECT ---------- */
+function goToPredict() {
+    window.location.href = "/predict";
+}
+
+/* ---------- STAR ANIMATION ---------- */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+const STAR_COUNT = 280;
+const stars = [];
+
+for (let i = 0; i < STAR_COUNT; i++) {
+    stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.3,
+        s: Math.random() * 0.4 + 0.1
+    });
+}
+
+function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+
+    stars.forEach(star => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        star.y += star.s;
+        if (star.y > canvas.height) {
+            star.y = 0;
+            star.x = Math.random() * canvas.width;
+        }
+    });
+
+    requestAnimationFrame(animateStars);
+}
+animateStars();
+</script>
+
+</body>
+</html>
